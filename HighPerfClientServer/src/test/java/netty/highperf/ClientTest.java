@@ -1,31 +1,41 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package javaio.highperf;
+package netty.highperf;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import netty.highperf.Client;
+import junit.framework.Test;
 import junit.framework.TestCase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import junit.framework.TestSuite;
 
 /**
- *
- * @author Chetan Narsude <chetan@malhar-inc.com>
+ * Unit test for simple App.
  */
 public class ClientTest extends TestCase
 {
-  private static final Logger logger = LoggerFactory.getLogger(ClientTest.class);
-
+  /**
+   * Create the test case
+   *
+   * @param testName name of the test case
+   */
   public ClientTest(String testName)
   {
     super(testName);
   }
 
-  public void testSomeMethod() throws IOException
+  /**
+   * @return the suite of tests being tested
+   */
+  public static Test suite()
+  {
+    return new TestSuite(ClientTest.class);
+  }
+
+  /**
+   * Rigourous Test :-)
+   */
+  public void testApp() throws IOException, InterruptedException
   {
     Process proc = Runtime.getRuntime().exec(new String[] {
               "/bin/sh",
@@ -33,9 +43,8 @@ public class ClientTest extends TestCase
               "nc -l 5033 2>/tmp/nc | dd bs=4096 of=/dev/null 2>/tmp/dd"
             });
 
-
-    Client client = new Client("cnlindes", 5033);
-    client.run();
+    Client c = new Client("cnlindes", 5033);
+    c.run();
 
     BufferedInputStream buffer = new BufferedInputStream(proc.getInputStream());
     BufferedReader commandOutput = new BufferedReader(new InputStreamReader(buffer));
@@ -50,6 +59,5 @@ public class ClientTest extends TestCase
     catch (IOException e) {
       //log and/or handle it
     }//end catch
-
   }
 }

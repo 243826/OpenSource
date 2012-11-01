@@ -31,23 +31,11 @@ public class Client
     Socket socket = new Socket(host, port);
     OutputStream stream = socket.getOutputStream();
 
-    int i = 0;
-    while (!Thread.interrupted()) {
+    for (int i = 0; i < 16 * 1024 * 1024; i++) {
       stream.write(new byte[64]);
-//      if (++i == 10) {
-//        try {
-//          Thread.sleep(100);
-//        }
-//        catch (InterruptedException ex) {
-//          Thread.currentThread().interrupt();
-//        }
-//        i = 0;
-//      }
     }
 
     stream.flush();
     stream.close();
   }
-
-
 }

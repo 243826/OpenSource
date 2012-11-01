@@ -57,7 +57,7 @@ public class Client implements Runnable
               byte[] b = (byte[])it.next();
               ctx.nextOutboundByteBuffer().writeBytes(b);
             }
-            logger.debug("total messages = {}", ctx.nextOutboundByteBuffer().writableBytes());
+//            logger.debug("total messages = {}", ctx.nextOutboundByteBuffer().writableBytes());
             ctx.flush(future);
           }
 
@@ -71,8 +71,7 @@ public class Client implements Runnable
       logger.debug("exception while connection", ex);
     }
 
-    int i = 0;
-    while (!Thread.interrupted()) {
+    for (int i = 0; i < 16 * 1024 * 1024; i++) {
       channel.write(new byte[64]);
 //      if (++i == 10) {
 //        try {
