@@ -40,24 +40,18 @@ public class ClientTest extends TestCase
     Process proc = Runtime.getRuntime().exec(new String[] {
               "/bin/sh",
               "-c",
-              "nc -l 5033 2>/tmp/nc | dd bs=4096 of=/dev/null 2>/tmp/dd"
+              "nc -l 5033 | dd bs=4096 of=/dev/null"
             });
 
     Client c = new Client("cnlindes", 5033);
     c.run();
 
-    BufferedInputStream buffer = new BufferedInputStream(proc.getInputStream());
+    BufferedInputStream buffer = new BufferedInputStream(proc.getErrorStream());
     BufferedReader commandOutput = new BufferedReader(new InputStreamReader(buffer));
-    try {
-      String line;
-      while ((line = commandOutput.readLine()) != null) {
-        System.out.println("command output: " + line);
-      }//end while
-
-      commandOutput.close();
+    String line;
+    while ((line = commandOutput.readLine()) != null) {
+      System.out.println("command output: " + line);
     }
-    catch (IOException e) {
-      //log and/or handle it
-    }//end catch
+    commandOutput.close();
   }
 }
