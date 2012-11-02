@@ -34,7 +34,7 @@ public class ClientTest extends TestCase
             });
 
 
-    Client client = new Client("cnlindes", 5033);
+    Client client = new Client("localhost", 5033);
     client.run();
 
     BufferedInputStream buffer = new BufferedInputStream(proc.getErrorStream());

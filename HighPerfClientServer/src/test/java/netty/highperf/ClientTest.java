@@ -43,7 +43,7 @@ public class ClientTest extends TestCase
               "nc -l 5033 | dd bs=4096 of=/dev/null"
             });
 
-    Client c = new Client("cnlindes", 5033);
+    Client c = new Client("localhost", 5033);
     c.run();
 
     BufferedInputStream buffer = new BufferedInputStream(proc.getErrorStream());
