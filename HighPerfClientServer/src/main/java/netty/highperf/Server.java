@@ -65,6 +65,7 @@ public class Server
           public void inboundBufferUpdated(ChannelHandlerContext ctx, ByteBuf in) throws Exception
           {
             logger.debug("msg = {}", in.readableBytes());
+            in.clear(); // discard the data
           }
         });
       }
