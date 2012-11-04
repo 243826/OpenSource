@@ -29,6 +29,7 @@ public class Client implements Runnable
   private Channel channel;
   private String host;
   private int port;
+  boolean futureListenerAdded;
 
   public Client(String host, int port)
   {
@@ -71,30 +72,32 @@ public class Client implements Runnable
       logger.debug("exception while connection", ex);
     }
 
-    for (int i = 0; i < 80 * 1024; i++) {
-      for (int j = 0; j < 1023; j++) {
-        channel.write(new byte[64]);
-      }
-
-      ChannelFutureListener cfl = new ChannelFutureListener()
+    ChannelFutureListener cfl = new ChannelFutureListener()
+    {
+      public synchronized void operationComplete(ChannelFuture future) throws Exception
       {
-        public synchronized void operationComplete(ChannelFuture future) throws Exception
-        {
-          notify();
-        }
-      };
+        futureListenerAdded = false;
+        notify();
+      }
+    };
 
-      channel.write(new byte[64]).addListener(cfl);
-
-      for (int j = 0; j < 1024; j++) {
+    for (int i = 0; i < 32 * 1024; i++) {
+      for (int j = 0; j < 511; j++) {
         channel.write(new byte[64]);
       }
 
       synchronized (cfl) {
-        try {
-          cfl.wait();
+        if (futureListenerAdded) {
+          try {
+            channel.write(new byte[64]);
+            cfl.wait();
+          }
+          catch (InterruptedException ex) {
+          }
         }
-        catch (InterruptedException ex) {
+        else {
+          channel.write(new byte[64]).addListener(cfl);
+          futureListenerAdded = true;
         }
       }
     }
