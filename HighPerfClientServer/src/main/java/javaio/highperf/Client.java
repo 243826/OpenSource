@@ -31,7 +31,7 @@ public class Client
     Socket socket = new Socket(host, port);
     OutputStream stream = socket.getOutputStream();
 
-    for (int i = 0; i < 160 * 1024 * 1024; i++) {
+    for (int i = 0; i < 16 * 1024 * 1024; i++) {
       stream.write(new byte[64]);
     }
 
