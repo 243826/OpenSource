@@ -5,19 +5,12 @@
 package netty.highperf;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
-import io.netty.buffer.ChannelBuf;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioEventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import java.net.SocketAddress;
-import java.util.Iterator;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static io.netty.buffer.Unpooled.wrappedBuffer;
 
 /**
  *
@@ -50,18 +43,24 @@ public class Client implements Runnable
               public void initChannel(SocketChannel ch) throws Exception
               {
                 ChannelPipeline pipeline = ch.pipeline();
-                pipeline.addLast("ob", new ChannelOutboundMessageHandlerAdapter()
+                pipeline.addLast("ob", new ChannelOutboundMessageHandlerAdapter<byte[]>()
                 {
+
                   @Override
-                  public void flush(ChannelHandlerContext ctx, ChannelFuture future) throws Exception
+                  protected void flush(ChannelHandlerContext ctx, byte[] msg) throws Exception
                   {
-                    for (Iterator<Object> it = ctx.outboundMessageBuffer().iterator(); it.hasNext();) {
-                      byte[] b = (byte[])it.next();
-                      ctx.nextOutboundByteBuffer().writeBytes(b);
-                    }
-                    ctx.outboundMessageBuffer().clear();
-                    ctx.flush(future);
+                    ctx.nextOutboundByteBuffer().writeBytes(msg);
                   }
+//                  @Override
+//                  public void flush(ChannelHandlerContext ctx, ChannelFuture future) throws Exception
+//                  {
+//                    for (Iterator<Object> it = ctx.outboundMessageBuffer().iterator(); it.hasNext();) {
+//                      byte[] b = (byte[])it.next();
+//                      ctx.nextOutboundByteBuffer().writeBytes(b);
+//                    }
+//                    ctx.outboundMessageBuffer().clear();
+//                    ctx.flush(future);
+//                  }
                 });
               }
             });

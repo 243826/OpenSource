@@ -37,6 +37,7 @@ public class ClientTest extends TestCase
    */
   public void testApp() throws IOException, InterruptedException
   {
+    //System.setProperty("io.netty.epollBugWorkaround", "true");
     Process proc = Runtime.getRuntime().exec(new String[] {
               "/bin/sh",
               "-c",
