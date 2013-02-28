@@ -46,5 +46,20 @@
       <artifactId>netty-common</artifactId>
       <version>4.0.0.Beta1</version>
     </dependency>
+    <dependency>
+      <groupId>connectlet</groupId>
+      <artifactId>connectlet-core</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>connectlet</groupId>
+      <artifactId>connectlet-misc</artifactId>
+      <version>0.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>connectlet</groupId>
+      <artifactId>connectlet-tools</artifactId>
+      <version>0.0.1</version>
+    </dependency>
   </dependencies>
 </project>

@@ -35,6 +35,7 @@ public class Client implements Runnable
     Bootstrap bootstrap = new Bootstrap();
     bootstrap.group(new NioEventLoopGroup(8))
             .channel(NioSocketChannel.class)
+            .option(ChannelOption.TCP_NODELAY, false)
             .remoteAddress(host, port)
             .handler(
             new ChannelInitializer<SocketChannel>()

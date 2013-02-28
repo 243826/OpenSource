@@ -1,50 +1,40 @@
-package netty.highperf;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package connectlet.highperf;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Unit test for simple App.
+ *
+ * @author Chetan Narsude <chetan@malhar-inc.com>
  */
 public class ClientTest extends TestCase
 {
-  /**
-   * Create the test case
-   *
-   * @param testName name of the test case
-   */
+  private static final Logger logger = LoggerFactory.getLogger(ClientTest.class);
+
   public ClientTest(String testName)
   {
     super(testName);
   }
 
-  /**
-   * @return the suite of tests being tested
-   */
-  public static Test suite()
+  public void testSomeMethod() throws IOException
   {
-    return new TestSuite(ClientTest.class);
-  }
-
-  /**
-   * Rigourous Test :-)
-   */
-  public void testApp() throws IOException, InterruptedException
-  {
-    //System.setProperty("io.netty.epollBugWorkaround", "true");
     Process proc = Runtime.getRuntime().exec(new String[] {
               "/bin/sh",
               "-c",
               "nc -l 5033 | dd bs=4096 of=/dev/null"
             });
 
-    Client c = new Client("localhost", 5033);
-    c.run();
+
+    new Client("localhost", 5033).run();
 
     BufferedInputStream buffer = new BufferedInputStream(proc.getErrorStream());
     BufferedReader commandOutput = new BufferedReader(new InputStreamReader(buffer));
