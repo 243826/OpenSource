@@ -47,19 +47,9 @@
       <version>4.0.0.Beta3-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>connectlet</groupId>
-      <artifactId>connectlet-core</artifactId>
-      <version>0.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>connectlet</groupId>
-      <artifactId>connectlet-misc</artifactId>
-      <version>0.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>connectlet</groupId>
-      <artifactId>connectlet-tools</artifactId>
-      <version>0.0.1</version>
+      <groupId>com.malhartech</groupId>
+      <artifactId>malhar-connectlet</artifactId>
+      <version>0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <profiles>

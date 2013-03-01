@@ -7,11 +7,7 @@ package connectlet.highperf;
 import com.googlecode.connectlet.Connection;
 import com.googlecode.connectlet.Connector;
 import com.googlecode.connectlet.Connector.Listener;
-import javaio.highperf.*;
 import java.io.IOException;
-import java.io.OutputStream;
-import static java.lang.Thread.sleep;
-import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
