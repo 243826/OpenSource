@@ -39,32 +39,22 @@ public class Client implements Runnable
             .remoteAddress(host, port)
             .handler(
             new ChannelInitializer<SocketChannel>()
-            {
-              @Override
-              public void initChannel(SocketChannel ch) throws Exception
-              {
-                ChannelPipeline pipeline = ch.pipeline();
-                pipeline.addLast("ob", new ChannelOutboundMessageHandlerAdapter<byte[]>()
-                {
+    {
+      @Override
+      public void initChannel(SocketChannel ch) throws Exception
+      {
+        ChannelPipeline pipeline = ch.pipeline();
+        pipeline.addLast("ob", new ChannelOutboundMessageHandlerAdapter<byte[]>()
+        {
+          public void flush(ChannelHandlerContext chc, byte[] t) throws Exception
+          {
+            chc.nextOutboundByteBuffer().writeBytes(t);
+          }
 
-                  @Override
-                  protected void flush(ChannelHandlerContext ctx, byte[] msg) throws Exception
-                  {
-                    ctx.nextOutboundByteBuffer().writeBytes(msg);
-                  }
-//                  @Override
-//                  public void flush(ChannelHandlerContext ctx, ChannelFuture future) throws Exception
-//                  {
-//                    for (Iterator<Object> it = ctx.outboundMessageBuffer().iterator(); it.hasNext();) {
-//                      byte[] b = (byte[])it.next();
-//                      ctx.nextOutboundByteBuffer().writeBytes(b);
-//                    }
-//                    ctx.outboundMessageBuffer().clear();
-//                    ctx.flush(future);
-//                  }
-                });
-              }
-            });
+        });
+      }
+
+    });
     try {
       channel = bootstrap.connect().sync().channel();
     }
@@ -79,6 +69,7 @@ public class Client implements Runnable
         futureListenerAdded = false;
         notify();
       }
+
     };
 
     for (int i = 0; i < 32 * 1024; i++) {
@@ -106,4 +97,5 @@ public class Client implements Runnable
     channel.close().awaitUninterruptibly();
     bootstrap.shutdown();
   }
+
 }

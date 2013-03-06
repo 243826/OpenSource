@@ -7,6 +7,7 @@ package javaio.highperf;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,9 @@ public class Client
     OutputStream stream = socket.getOutputStream();
 
     for (int i = 0; i < 16 * 1024 * 1024; i++) {
-      stream.write(new byte[64]);
+      byte[] array = new byte[64];
+      Arrays.fill(array, (byte)i);
+      stream.write(array);
     }
 
     stream.flush();
