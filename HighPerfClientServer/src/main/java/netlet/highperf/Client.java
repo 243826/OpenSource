@@ -16,10 +16,6 @@ import org.slf4j.LoggerFactory;
  */
 public class Client extends malhar.netlet.Client implements Runnable
 {
-  SelectionKey key;
-  volatile boolean disconnected;
-  volatile boolean done;
-
   public void run()
   {
     try {
@@ -32,23 +28,12 @@ public class Client extends malhar.netlet.Client implements Runnable
     catch (InterruptedException ie) {
       logger.debug("stopped sending since interrupted", ie);
     }
-
-    if (key != null) {
-      key.interestOps(SelectionKey.OP_WRITE);
-    }
-  }
-
-  @Override
-  public void connected(SelectionKey key)
-  {
-    key.interestOps(SelectionKey.OP_WRITE);
-    this.key = key;
   }
 
   @Override
   public ByteBuffer buffer()
   {
-    return bb;
+    return null;
   }
 
   @Override
@@ -56,6 +41,5 @@ public class Client extends malhar.netlet.Client implements Runnable
   {
   }
 
-  private ByteBuffer bb = ByteBuffer.allocate(4096);
   private static final Logger logger = LoggerFactory.getLogger(Client.class);
 }
