@@ -8,6 +8,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import junit.framework.TestCase;
 import malhar.netlet.EventLoop;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class ClientTest extends TestCase
     EventLoop el = new EventLoop("test");
     new Thread(el).start();
 
-    el.connect("localhost", 5033, cl);
+    el.connect(new InetSocketAddress("localhost", 5033), cl);
     cl.run();
     el.disconnect(cl);
 

@@ -5,7 +5,6 @@
 package netlet.highperf;
 
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
 import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
