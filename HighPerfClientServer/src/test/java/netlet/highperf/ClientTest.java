@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import junit.framework.TestCase;
-import malhar.netlet.EventLoop;
+import malhar.netlet.DefaultEventLoop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +37,7 @@ public class ClientTest extends TestCase
 
     Client cl = new Client();
 
-    EventLoop el = new EventLoop("test");
+    DefaultEventLoop el = new DefaultEventLoop("test");
     new Thread(el).start();
 
     el.connect(new InetSocketAddress("localhost", 5033), cl);
