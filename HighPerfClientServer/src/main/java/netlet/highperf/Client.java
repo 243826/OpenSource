@@ -45,5 +45,11 @@ public class Client extends com.malhartech.netlet.Client implements Runnable
   {
   }
 
+  @Override
+  public String toString()
+  {
+    return "Client";
+  }
+
   private static final Logger logger = LoggerFactory.getLogger(Client.class);
 }

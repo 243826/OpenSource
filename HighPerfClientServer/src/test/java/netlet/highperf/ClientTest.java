@@ -30,30 +30,28 @@ public class ClientTest extends TestCase
   @SuppressWarnings("UseOfSystemOutOrSystemErr")
   public void testSomeMethod() throws IOException
   {
-    for (int i = 1; i <= 50; i++) {
-      Process proc = Runtime.getRuntime().exec(new String[] {
-                "/bin/sh",
-                "-c",
-                "nc -l 5033 | dd bs=4096 of=/dev/null"
-              });
+    Process proc = Runtime.getRuntime().exec(new String[] {
+              "/bin/sh",
+              "-c",
+              "nc -l 5033 | dd bs=4096 of=/dev/null"
+            });
 
-      Client cl = new Client(i * 1024);
+    Client cl = new Client(1024);
 
-      DefaultEventLoop el = new DefaultEventLoop("test");
-      new Thread(el).start();
+    DefaultEventLoop el = new DefaultEventLoop("test");
+    new Thread(el).start();
 
-      el.connect(new InetSocketAddress("localhost", 5033), cl);
-      cl.run();
-      el.disconnect(cl);
+    el.connect(new InetSocketAddress("localhost", 5033), cl);
+    cl.run();
+    el.disconnect(cl);
 
-      BufferedInputStream buffer = new BufferedInputStream(proc.getErrorStream());
-      BufferedReader commandOutput = new BufferedReader(new InputStreamReader(buffer));
-      String line;
-      while ((line = commandOutput.readLine()) != null) {
-        System.out.println(i + ". command output: " + line);
-      }
-      commandOutput.close();
+    BufferedInputStream buffer = new BufferedInputStream(proc.getErrorStream());
+    BufferedReader commandOutput = new BufferedReader(new InputStreamReader(buffer));
+    String line;
+    while ((line = commandOutput.readLine()) != null) {
+      System.out.println("command output: " + line);
     }
+    commandOutput.close();
   }
 
 }
