@@ -4,8 +4,8 @@
  */
 package netlet.highperf;
 
+import static java.lang.Thread.sleep;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,19 +13,24 @@ import org.slf4j.LoggerFactory;
  *
  * @author Chetan Narsude <chetan@malhar-inc.com>
  */
-public class Client extends malhar.netlet.Client implements Runnable
+public class Client extends com.malhartech.netlet.Client implements Runnable
 {
+  public Client(int sendBufferSize)
+  {
+    super(sendBufferSize);
+  }
+
+  @SuppressWarnings("SleepWhileInLoop")
   public void run()
   {
     try {
       for (int i = 0; i < 16 * 1024 * 1024; i++) {
-        byte[] array = new byte[64];
-        Arrays.fill(array, (byte)i);
-        send(array, 0, 64);
+        while (!send(new byte[64], 0, 64)) {
+          sleep(5);
+        }
       }
     }
     catch (InterruptedException ie) {
-      logger.debug("stopped sending since interrupted", ie);
     }
   }
 

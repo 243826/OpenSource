@@ -33,9 +33,7 @@ public class Client
     OutputStream stream = socket.getOutputStream();
 
     for (int i = 0; i < 16 * 1024 * 1024; i++) {
-      byte[] array = new byte[64];
-      Arrays.fill(array, (byte)i);
-      stream.write(array);
+      stream.write(new byte[64]);
     }
 
     stream.flush();
