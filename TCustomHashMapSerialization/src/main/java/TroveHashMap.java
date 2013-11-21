@@ -31,7 +31,9 @@ public class TroveHashMap extends TCustomHashMap<Object, Object> implements Kryo
   public void write(Kryo kryo, Output output)
   {
     try {
-      super.writeExternal(new ObjectOutputStream(output));
+      ObjectOutputStream stream;
+      super.writeExternal(stream = new ObjectOutputStream(output));
+      stream.flush();
     }
     catch (IOException ex) {
       throw new RuntimeException(ex);
